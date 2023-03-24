@@ -7,7 +7,7 @@ module SizedList exposing
     , sort, sortBy, sortWith
     , isEmpty, head, tail, take, drop, partition, uncons, unzip
     , length, all, any, minimum, maximum, sum, product, member, reverse, toList
-    , empty, getAt, range, removeAt, updateAt
+    , empty, getAt, range, removeAt, unsafeFromList, updateAt
     )
 
 {-| A list with at least one element
@@ -103,6 +103,20 @@ range a b =
 fromList : List a -> SizedList a
 fromList xs =
     SizedList (List.length xs) xs
+
+
+{-| Unsafe version of fromList.
+
+**WARNING:** Use it **only** when you know the list length for sure.
+
+Using this function, we can wrap a regular list without scanning for its length, which
+is considerably faster. However, it can also create inconsistent objects with a reported size
+is different from the actual data length.
+
+-}
+unsafeFromList : Int -> List a -> SizedList a
+unsafeFromList =
+    SizedList
 
 
 {-| Add an element to the front of a list.
