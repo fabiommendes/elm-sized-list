@@ -3,7 +3,7 @@
     "name": "fabiommendes/elm-sized-list",
     "summary": "A list that caches its size.",
     "license": "BSD-3-Clause",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "exposed-modules": [
         "SizedList"
     ],

@@ -1,13 +1,14 @@
 module SizedList exposing
     ( SizedList
-    , cons, singleton, repeat, fromList
+    , empty, cons, singleton, repeat, range, fromList
     , map, indexedMap, foldl, foldr
     , filter, filterMap
     , append, concat, concatMap, map2, map3, map4, map5
     , sort, sortBy, sortWith
     , isEmpty, head, tail, take, drop, partition, uncons, unzip
     , length, all, any, minimum, maximum, sum, product, member, reverse, toList
-    , empty, getAt, range, removeAt, unsafeFromList, updateAt
+    , getAt, removeAt, updateAt
+    , unsafeFromList, intersperse
     )
 
 {-| A list with at least one element
@@ -17,12 +18,12 @@ module SizedList exposing
 
 ## Construction
 
-@docs create, cons, singleton, repeat, fromList, withDefault, withExample
+@docs empty, cons, singleton, repeat, range, fromList
 
 
 ## Transform
 
-@docs map, indexedMap, foldl, foldr, reduce
+@docs map, indexedMap, foldl, foldr
 
 
 ## Filtering
@@ -48,6 +49,16 @@ module SizedList exposing
 ## Utilities
 
 @docs length, all, any, minimum, maximum, sum, product, member, reverse, toList
+
+
+## Indexed operations
+
+@docs getAt, removeAt, updateAt
+
+
+## Unsafe operations
+
+@docs unsafeFromList
 
 -}
 
@@ -308,6 +319,17 @@ concat lists =
 concatMap : (a -> SizedList b) -> SizedList a -> SizedList b
 concatMap f list =
     concat (map f list)
+
+
+{-| Places the given value between all members of the given list.
+-}
+intersperse : a -> SizedList a -> SizedList a
+intersperse elem (SizedList n xs) =
+    if n == 0 then
+        empty
+
+    else
+        SizedList (2 * n - 1) (List.intersperse elem xs)
 
 
 {-| Determine if all elements satisfy some test.
